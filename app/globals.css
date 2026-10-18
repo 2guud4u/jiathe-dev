@@ -1,0 +1,225 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #f5ecd7;
+  --surface: #ede0c4;
+  --foreground: #2a2118;
+  --muted: #6b5d4f;
+  --border: #e0cfaa;
+}
+
+.dark {
+  --background: #060a06;
+  --surface: #0d140d;
+  --foreground: #4ade80;
+  --muted: #4d7a5a;
+  --border: #1c3325;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+@keyframes card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card-enter {
+  opacity: 0;
+  animation: card-enter 0.5s cubic-bezier(0.21, 0.6, 0.36, 1) var(--stagger, 0ms) forwards;
+}
+
+/* Neon power-up: flickers on like a sign, leaves a green glow behind. */
+@keyframes neon-power {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+    box-shadow: none;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  14% {
+    opacity: 0.15;
+  }
+  24% {
+    opacity: 0.85;
+  }
+  30% {
+    opacity: 0.3;
+  }
+  44% {
+    opacity: 1;
+  }
+  55% {
+    opacity: 0.7;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow:
+      0 0 16px rgba(74, 222, 128, 0.22),
+      0 0 48px rgba(74, 222, 128, 0.09);
+  }
+}
+
+@keyframes neon-idle {
+  0%, 94% {
+    opacity: 1;
+  }
+  94.5% {
+    opacity: 0.55;
+  }
+  96% {
+    opacity: 1;
+  }
+  97.5% {
+    opacity: 0.7;
+  }
+  99%, 100% {
+    opacity: 1;
+  }
+}
+
+.dark .card-enter {
+  animation:
+    neon-power 1.4s cubic-bezier(0.21, 0.6, 0.36, 1) var(--stagger, 0ms) forwards,
+    neon-idle 45s linear calc(1.4s + var(--stagger, 0ms)) infinite;
+}
+/* Dead neon tube: "hua" flickers in and out, mostly out. */
+@keyframes neon-dead {
+  0%, 8% {
+    opacity: 0;
+    text-shadow: none;
+  }
+  10% {
+    opacity: 1;
+    text-shadow: 0 0 18px rgba(74, 222, 128, 0.8);
+  }
+  13% {
+    opacity: 0;
+    text-shadow: none;
+  }
+  15% {
+    opacity: 0.9;
+    text-shadow: 0 0 18px rgba(74, 222, 128, 0.7);
+  }
+  20%, 54% {
+    opacity: 0;
+    text-shadow: none;
+  }
+  56% {
+    opacity: 1;
+    text-shadow: 0 0 22px rgba(74, 222, 128, 0.85);
+  }
+  62% {
+    opacity: 0.85;
+    text-shadow: 0 0 14px rgba(74, 222, 128, 0.5);
+  }
+  66%, 100% {
+    opacity: 0;
+    text-shadow: none;
+  }
+}
+
+.dark .neon-flicker {
+  animation: neon-dead 3s linear forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dark .neon-flicker {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* Tips over, catches on the h's bottom-left leg, hangs vertical and dim. */
+@keyframes hua-hang {
+  /* Half-swing: tips over onto the h's leg and hangs vertical. */
+  0% {
+    transform: rotate(0deg);
+    opacity: 0.9;
+  }
+  60% {
+    transform: rotate(97deg);
+    opacity: 0.4;
+  }
+  85% {
+    transform: rotate(88deg);
+  }
+  100% {
+    transform: rotate(90deg);
+    opacity: 0.3;
+  }
+}
+
+/* Gravity drop to the viewport floor. */
+@keyframes hua-fall {
+  from {
+    transform: rotate(90deg);
+    opacity: 0.3;
+  }
+  to {
+    transform: translateY(110vh) rotate(70deg);
+    opacity: 0.3;
+  }
+}
+/* Restored: flickers on like a tube catching power, then stays lit. */
+@keyframes neon-ignite {
+  0% {
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.9;
+  }
+  20% {
+    opacity: 0.15;
+  }
+  35% {
+    opacity: 0.85;
+  }
+  45% {
+    opacity: 0.3;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.dark .neon-ignite {
+  animation: neon-ignite 0.9s linear forwards;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .card-enter {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* Long-dash border for darkOnly cards: stroke-dasharray = dash gap. */
+.dark .card-dashed {
+  border-color: transparent;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%' height='100%' fill='none' rx='12' stroke='%231c3325' stroke-width='3' stroke-dasharray='16 8'/%3e%3c/svg%3e");
+}
+
+.dark .card-dashed:hover {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%' height='100%' fill='none' rx='12' stroke='%234d7a5a' stroke-width='3' stroke-dasharray='16 8'/%3e%3c/svg%3e");
+}
+
