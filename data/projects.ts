@@ -6,6 +6,7 @@ import {
   Dices,
   Banknote,
   Swords,
+  Pin,
   type LucideIcon,
 } from "lucide-react";
 
@@ -18,7 +19,8 @@ export const icons = {
   terminal: Terminal,
   dices: Dices,
   banknote: Banknote,
-  swords: Swords
+  swords: Swords,
+  pin: Pin
 } satisfies Record<string, LucideIcon>;
 
 export type Project = {
@@ -35,14 +37,14 @@ export const projects: Project[] = [
     icon: "dices",
     name: "Risky Reign",
     description: "Child of Settlers of Catan and Risk",
-    tags: ["Next.js", "TypeScript"],
+    tags: ["Beta"],
     url: "https://riskyreign.com/",
   },
   {
     icon: "banknote",
     name: "WatsTheSplit",
     description: "Split international trip costs",
-    tags: ["React", "Tailwind", "WIP"],
+    tags: ["WIP"],
     darkOnly: true,
     url: "https://jiathe.dev/watsthesplit",
   },
@@ -52,6 +54,14 @@ export const projects: Project[] = [
     description: "Generate and Bet on your Slop Creations",
     tags: ["WIP"],
     url: "https://github.com/2guud4u/Slop-Battlegrounds",
+    darkOnly: true,
+  },
+    {
+    icon: "pin",
+    name: "Crum6s",
+    description: "Discover and drop crum6bs around the world!",
+    tags: ["WIP"],
+    url: "https://github.com/2guud4u/Crum6s",
     darkOnly: true,
   },
 ];
