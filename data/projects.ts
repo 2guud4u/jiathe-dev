@@ -44,8 +44,7 @@ export const projects: Project[] = [
     icon: "banknote",
     name: "WatsTheSplit",
     description: "Split international trip costs",
-    tags: ["WIP"],
-    darkOnly: true,
+    tags: ["Beta"],
     url: "https://jiathe.dev/watsthesplit",
   },
   {
