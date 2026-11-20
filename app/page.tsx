@@ -4,7 +4,8 @@ import { FallingHua } from "@/components/FallingHua";
 import { SectionTabs } from "@/components/SectionTabs";
 import type { Card } from "@/data/cards";
 import { hackathons, personal } from "@/data/projects";
-import { about, education } from "@/data/profile";
+import { about } from "@/data/about";
+import { education } from "@/data/education";
 import { work } from "@/data/work";
 
 function CardGrid({ cards }: { cards: Card[] }) {

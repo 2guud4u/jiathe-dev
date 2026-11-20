@@ -17,19 +17,18 @@ export type SectionTab = {
   children?: SectionChild[];
 };
 
-function Dashes({ label, wide }: { label: string; wide?: boolean }) {
-  const dash = wide ? "----" : "--";
+// Hierarchy marker in front of every tab: long dash for sections, dot for
+// subsections. Kept as a box (not text) so it aligns cleanly at any size.
+function Marker({ sub }: { sub?: boolean }) {
   return (
-    <>
-      <span aria-hidden="true" className="text-[var(--muted)]">
-        {dash}{" "}
-      </span>
-      {label}
-      <span aria-hidden="true" className="text-[var(--muted)]">
-        {" "}
-        {dash}
-      </span>
-    </>
+    <span
+      aria-hidden="true"
+      className={
+        sub
+          ? "h-1 w-1 shrink-0 rounded-full bg-current"
+          : "h-px w-6 shrink-0 bg-current opacity-40"
+      }
+    />
   );
 }
 
@@ -50,7 +49,7 @@ export function SectionTabs({ sections }: { sections: SectionTab[] }) {
   const current = panels.find((p) => p.id === active) ?? panels[0];
 
   const tabClass = (isActive: boolean) =>
-    `text-sm transition-colors ${
+    `inline-flex items-center gap-2 text-sm transition-colors ${
       isActive
         ? "font-semibold text-[var(--foreground)]"
         : "text-[var(--muted)] hover:text-[var(--foreground)]"
@@ -85,7 +84,8 @@ export function SectionTabs({ sections }: { sections: SectionTab[] }) {
                 }
                 className={`${tabClass(expanded)} mx-2.5 xl:mx-0`}
               >
-                <Dashes label={section.label} />
+                <Marker />
+                {section.label}
               </button>
               {/* Mount on expand so each child replays the card-enter
                   entrance with a stagger, same as the project cards. */}
@@ -100,9 +100,10 @@ export function SectionTabs({ sections }: { sections: SectionTab[] }) {
                     aria-controls={`panel-${child.id}`}
                     onClick={() => setActive(child.id)}
                     style={{ ["--stagger" as string]: `${150 + i * 100}ms` }}
-                    className={`card-enter mx-2.5 xl:mx-0 ${tabClass(active === child.id)}`}
+                    className={`card-enter mx-2.5 xl:mx-0 xl:pl-5 ${tabClass(active === child.id)}`}
                   >
-                    <Dashes label={child.label} wide />
+                    <Marker sub />
+                    {child.label}
                   </button>
                 ))}
             </div>
