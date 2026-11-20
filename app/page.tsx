@@ -2,7 +2,6 @@ import { ArrowUpRight } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { FallingHua } from "@/components/FallingHua";
 import { SectionTabs } from "@/components/SectionTabs";
-import { icons } from "@/data/icons";
 import type { Card } from "@/data/cards";
 import { projects } from "@/data/projects";
 import { about, education } from "@/data/profile";
@@ -11,7 +10,7 @@ function CardGrid({ cards }: { cards: Card[] }) {
   return (
     <div className="grid gap-4 sm:grid-cols-3">
       {cards.map((card, i) => {
-        const Icon = icons[card.icon];
+        const Icon = card.icon;
         const inner = (
           <>
             <div className="flex items-center justify-between">
@@ -24,16 +23,18 @@ function CardGrid({ cards }: { cards: Card[] }) {
             <p className="mt-1 text-sm text-[var(--muted)]">
               {card.description}
             </p>
-            <ul className="mt-3 flex flex-wrap gap-1.5">
-              {card.tags?.map((tag) => (
-                <li
-                  key={tag}
-                  className="rounded-full border border-[var(--border)] px-2 py-0.5 text-xs text-[var(--muted)]"
-                >
-                  {tag}
-                </li>
-              ))}
-            </ul>
+            {!!card.tags?.filter(Boolean).length && (
+              <ul className="mt-3 flex flex-wrap gap-1.5">
+                {card.tags.filter(Boolean).map((tag) => (
+                  <li
+                    key={tag}
+                    className="rounded-full border border-[var(--border)] px-2 py-0.5 text-xs text-[var(--muted)]"
+                  >
+                    {tag}
+                  </li>
+                ))}
+              </ul>
+            )}
           </>
         );
         const classes = `card-enter group rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 transition-colors ${
