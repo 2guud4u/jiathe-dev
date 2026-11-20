@@ -3,11 +3,18 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { FallingHua } from "@/components/FallingHua";
 import { SectionTabs } from "@/components/SectionTabs";
 import type { Card } from "@/data/cards";
-import { projects } from "@/data/projects";
+import { hackathons, personal } from "@/data/projects";
 import { about, education } from "@/data/profile";
 import { work } from "@/data/work";
 
 function CardGrid({ cards }: { cards: Card[] }) {
+  if (cards.length === 0) {
+    return (
+      <p className="card-enter rounded-xl border border-dashed border-[var(--border)] p-5 text-sm text-[var(--muted)]">
+        Nothing here yet.
+      </p>
+    );
+  }
   return (
     <div className="grid gap-4 sm:grid-cols-3">
       {cards.map((card, i) => {
@@ -66,7 +73,7 @@ function CardGrid({ cards }: { cards: Card[] }) {
 
 export default function Home() {
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-3xl flex-col px-6 pb-10 pt-14 xl:pt-20">
+    <main className="mx-auto flex min-h-screen w-full max-w-3xl flex-col px-6 pb-10 pt-18 xl:pt-20">
       <div className="my-auto">
       <p className="text-lg text-[var(--muted)]">Hey, I&apos;m</p>
       <h1 className="mt-2 text-6xl font-bold tracking-tight sm:text-8xl">
@@ -80,7 +87,18 @@ export default function Home() {
           {
             id: "projects",
             label: "Projects",
-            content: <CardGrid cards={projects} />,
+            children: [
+              {
+                id: "personal",
+                label: "Personal",
+                content: <CardGrid cards={personal} />,
+              },
+              {
+                id: "hackathons",
+                label: "Hackathons",
+                content: <CardGrid cards={hackathons} />,
+              },
+            ],
           },
           {
             id: "education",

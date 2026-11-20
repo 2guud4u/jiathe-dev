@@ -1,7 +1,7 @@
 import { Banknote, Dices, Pin, Swords } from "lucide-react";
 import type { Card } from "./cards";
 
-export const projects: Card[] = [
+export const personal: Card[] = [
   {
     icon: Dices,
     title: "Risky Reign",
@@ -33,3 +33,5 @@ export const projects: Card[] = [
     darkOnly: true,
   },
 ];
+
+export const hackathons: Card[] = [];

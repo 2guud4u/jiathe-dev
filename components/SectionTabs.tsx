@@ -2,43 +2,59 @@
 
 import { useState, type ReactNode } from "react";
 
-export type SectionTab = {
+export type SectionChild = {
   id: string;
   label: string;
   content: ReactNode;
 };
 
-export function SectionTabs({ sections }: { sections: SectionTab[] }) {
-  const [active, setActive] = useState(sections[0].id);
+export type SectionTab = {
+  id: string;
+  label: string;
+  // Ignored when the section has children (the first child renders instead).
+  content?: ReactNode;
+  // Sub-tabs; expand when this section is the active one.
+  children?: SectionChild[];
+};
 
-  const tabs = sections.map(({ id, label }) => {
-    const isActive = active === id;
-    return (
-      <button
-        key={id}
-        type="button"
-        role="tab"
-        id={`tab-${id}`}
-        aria-selected={isActive}
-        aria-controls={`panel-${id}`}
-        onClick={() => setActive(id)}
-        className={`text-sm transition-colors ${
-          isActive
-            ? "font-semibold text-[var(--foreground)]"
-            : "text-[var(--muted)] hover:text-[var(--foreground)]"
-        }`}
-      >
-        <span aria-hidden="true" className="text-[var(--muted)]">
-          --{" "}
-        </span>
-        {label}
-        <span aria-hidden="true" className="text-[var(--muted)]">
-          {" "}
-          --
-        </span>
-      </button>
-    );
-  });
+function Dashes({ label, wide }: { label: string; wide?: boolean }) {
+  const dash = wide ? "----" : "--";
+  return (
+    <>
+      <span aria-hidden="true" className="text-[var(--muted)]">
+        {dash}{" "}
+      </span>
+      {label}
+      <span aria-hidden="true" className="text-[var(--muted)]">
+        {" "}
+        {dash}
+      </span>
+    </>
+  );
+}
+
+export function SectionTabs({ sections }: { sections: SectionTab[] }) {
+  const first = sections[0];
+  const [active, setActive] = useState(
+    first?.children?.[0]?.id ?? first?.id ?? ""
+  );
+
+  const activeSection =
+    sections.find((s) => s.id === active || s.children?.some((c) => c.id === active)) ?? first;
+
+  const panels: SectionChild[] = sections.flatMap((s) =>
+    s.children?.length
+      ? s.children
+      : [{ id: s.id, label: s.label, content: s.content }]
+  );
+  const current = panels.find((p) => p.id === active) ?? panels[0];
+
+  const tabClass = (isActive: boolean) =>
+    `text-sm transition-colors ${
+      isActive
+        ? "font-semibold text-[var(--foreground)]"
+        : "text-[var(--muted)] hover:text-[var(--foreground)]"
+    }`;
 
   return (
     <div className="mt-20">
@@ -48,20 +64,61 @@ export function SectionTabs({ sections }: { sections: SectionTab[] }) {
       <div
         role="tablist"
         aria-label="Sections"
-        className="fixed inset-x-0 top-0 z-10 flex items-center justify-center gap-5 border-b border-[var(--border)] bg-[var(--background)] px-4 py-3 xl:inset-x-auto xl:left-6 xl:right-auto xl:top-1/2 xl:-translate-y-1/2 xl:flex-col xl:items-start xl:gap-3 xl:border-0 xl:bg-transparent xl:p-0"
+        className="fixed inset-x-0 top-0 z-10 flex flex-wrap items-center justify-center border-b border-[var(--border)] bg-[var(--background)] px-4 py-3 xl:absolute xl:inset-x-auto xl:left-6 xl:right-auto xl:top-1/2 xl:-translate-y-1/2 xl:flex-col xl:items-start xl:gap-1 xl:border-0 xl:bg-transparent xl:p-0"
       >
-        {tabs}
+        {sections.map((section) => {
+          const expanded = activeSection?.id === section.id;
+          return (
+            <div
+              key={section.id}
+              className="contents xl:flex xl:flex-col xl:items-start xl:gap-1"
+            >
+              <button
+                type="button"
+                role="tab"
+                id={`tab-${section.id}`}
+                aria-selected={expanded}
+                aria-expanded={section.children?.length ? expanded : undefined}
+                aria-controls={`panel-${current?.id}`}
+                onClick={() =>
+                  setActive(section.children?.[0]?.id ?? section.id)
+                }
+                className={`${tabClass(expanded)} mx-2.5 xl:mx-0`}
+              >
+                <Dashes label={section.label} />
+              </button>
+              {/* Mount on expand so each child replays the card-enter
+                  entrance with a stagger, same as the project cards. */}
+              {expanded &&
+                section.children?.map((child, i) => (
+                  <button
+                    key={child.id}
+                    type="button"
+                    role="tab"
+                    id={`tab-${child.id}`}
+                    aria-selected={active === child.id}
+                    aria-controls={`panel-${child.id}`}
+                    onClick={() => setActive(child.id)}
+                    style={{ ["--stagger" as string]: `${150 + i * 100}ms` }}
+                    className={`card-enter mx-2.5 xl:mx-0 ${tabClass(active === child.id)}`}
+                  >
+                    <Dashes label={child.label} wide />
+                  </button>
+                ))}
+            </div>
+          );
+        })}
       </div>
 
-      {sections.map(({ id, content }) => (
+      {panels.map((panel) => (
         <div
-          key={id}
+          key={panel.id}
           role="tabpanel"
-          id={`panel-${id}`}
-          aria-labelledby={`tab-${id}`}
-          hidden={id !== active}
+          id={`panel-${panel.id}`}
+          aria-labelledby={`tab-${panel.id}`}
+          hidden={panel.id !== current?.id}
         >
-          {content}
+          {panel.content}
         </div>
       ))}
     </div>
