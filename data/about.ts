@@ -1,4 +1,12 @@
-import { MapPin, UserRound } from "lucide-react";
+import {
+  Baby,
+  Bird,
+  CirclePlay,
+  Code2,
+  MapPin,
+  UserRound,
+  Users,
+} from "lucide-react";
 import type { Card } from "./cards";
 
 export const about: Card[] = [
@@ -15,9 +23,39 @@ export const about: Card[] = [
     tags: ["Citizen"],
   },
   {
-    icon: MapPin,
+    icon: Baby,
     title: "Born in",
     description: "Guangzhou, China",
     tags: ["Ex-citizen"],
   },
+    {
+    icon: CirclePlay,
+    title: "Youtube",
+    description: "My vids",
+    tags: ["Youtube"],
+    url: "https://www.youtube.com/@jiajiang8391",
+  },
+    {
+    icon: Bird,
+    title: "Twitter",
+    description: "My tweets",
+    tags: ["X"],
+  },
+  {
+    icon: Code2,
+    title: "Github",
+    description: "My code",
+    tags: ["Github"],
+    url: "https://github.com/2guud4u",
+  },
+  {
+    icon: Users,
+    title: "Linkedin",
+    description: "My link",
+    tags: ["Github"],
+    url: "https://www.linkedin.com/in/jiahjiang/",
+  }
+  
+  
+
 ];
