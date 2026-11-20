@@ -7,7 +7,8 @@ export const work: Card[] = [
     icon: Briefcase,
     title: "Software Engineer",
     description: "Walmart Global Tech · Sunnyvale, CA",
-    tags: ["Oct 2025 – Present"],
+    tags: ["Oct 2025 – Present", "Marketplace Item Catalog"],
+    url: "https://marketplace.walmart.com/",
   },
   {
     icon: BrainCircuit,
@@ -19,25 +20,30 @@ export const work: Card[] = [
     icon: Briefcase,
     title: "Software Engineer Intern",
     description: "Walmart Global Tech · Sunnyvale, CA",
-    tags: ["May 2024 – Jul 2024"],
+    tags: ["May 2024 – Jul 2024", "SparkDriver"],
+    url: "https://www.sparkdriverapp.com/en_us.html",
+
   },
   {
     icon: Building2,
     title: "Jr. IT Analyst",
     description: "Arch Insurance Group · Remote",
     tags: ["Aug 2023 – May 2024"],
+    url: "https://www.archgroup.com/"
   },
   {
     icon: Code2,
     title: "Full Stack Developer (UFEI)",
     description: "Cal Poly SLO · San Luis Obispo, CA",
     tags: ["May 2023 – May 2024"],
+    url: "https://selectree.calpoly.edu/"
   },
   {
     icon: Code2,
     title: "Web Development Intern (COSAM)",
     description: "Cal Poly SLO · San Luis Obispo, CA",
     tags: ["Mar 2023 – Mar 2024"],
+    url: "https://bailey.calpoly.edu/"
   },
   {
     icon: Tent,
