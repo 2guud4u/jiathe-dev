@@ -13,6 +13,8 @@ export const education: Card[] = [
     title: "Master's Thesis",
     description: "Video-Based Automation of Physical Therapy Functional Tests: Shoulder Arc Angle Prediction and Balance Test Phase Segmentation",
     tags: ["Computer Vision", "Physical Therapy"],
+    // Ships from public/thesis.pdf (copied from ~/Desktop/Thesis/main.pdf).
+    url: "/thesis.pdf",
   },
     {
     icon: GraduationCap,
