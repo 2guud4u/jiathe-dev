@@ -5,6 +5,7 @@ import { SectionTabs } from "@/components/SectionTabs";
 import type { Card } from "@/data/cards";
 import { projects } from "@/data/projects";
 import { about, education } from "@/data/profile";
+import { work } from "@/data/work";
 
 function CardGrid({ cards }: { cards: Card[] }) {
   return (
@@ -85,6 +86,11 @@ export default function Home() {
             id: "education",
             label: "Education",
             content: <CardGrid cards={education} />,
+          },
+          {
+            id: "work",
+            label: "Work",
+            content: <CardGrid cards={work} />,
           },
           {
             id: "about",
